@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perth Worldwide Aviation</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    overflow:hidden;
+    background:#020817;
+    color:white;
+}
+
+/* INTRO SCREEN */
+
+#intro{
+    position:fixed;
+    inset:0;
+    background:radial-gradient(circle at center,#0f172a,#020617 70%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:9999;
+    animation:hideIntro 1.5s ease forwards;
+    animation-delay:5s;
+}
+
+.light{
+    position:absolute;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#38bdf8;
+    box-shadow:
+        0 0 20px #38bdf8,
+        0 0 60px #38bdf8,
+        0 0 100px #38bdf8;
+    animation:expandLight 2s ease forwards;
+}
+
+.logo{
+    width:350px;
+    opacity:0;
+    transform:scale(.3);
+    filter:drop-shadow(0 0 40px #38bdf8);
+    animation:showLogo 2s ease forwards;
+    animation-delay:1.5s;
+}
+
+@keyframes expandLight{
+    0%{
+        transform:scale(0);
+    }
+    50%{
+        transform:scale(10);
+    }
+    100%{
+        transform:scale(0);
+        opacity:0;
+    }
+}
+
+@keyframes showLogo{
+    from{
+        opacity:0;
+        transform:scale(.5) rotate(-10deg);
+    }
+    to{
+        opacity:1;
+        transform:scale(1) rotate(0);
+    }
+}
+
+@keyframes hideIntro{
+    to{
+        opacity:0;
+        visibility:hidden;
+    }
+}
+
+/* MAIN PAGE */
+
+#main{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(-45deg,#020617,#0f172a,#082f49,#020617);
+    background-size:400% 400%;
+    animation:bg 15s ease infinite;
+}
+
+.card{
+    padding:50px;
+    border-radius:30px;
+    backdrop-filter:blur(15px);
+    background:rgba(255,255,255,0.08);
+    text-align:center;
+    box-shadow:0 0 40px rgba(0,0,0,.5);
+}
+
+.card img{
+    width:180px;
+    margin-bottom:20px;
+}
+
+h1{
+    margin-bottom:20px;
+}
+
+#countdown{
+    font-size:3rem;
+    color:#38bdf8;
+    text-shadow:0 0 20px #38bdf8;
+}
+
+@keyframes bg{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* PARTICLES */
+
+.particle{
+    position:absolute;
+    width:4px;
+    height:4px;
+    background:white;
+    border-radius:50%;
+    opacity:.5;
+    animation:float linear infinite;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh);
+    }
+    to{
+        transform:translateY(-100px);
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+    <div class="light"></div>
+    <img class="logo" src="logo.png" alt="Perth Logo">
+</div>
+
+<!-- MAIN PAGE -->
+<div id="main">
+    <div class="card">
+        <img src="logo.png" alt="Logo">
+        <h1>Launching This Saturday</h1>
+        <div id="countdown"></div>
+    </div>
+</div>
+
+<script>
+
+// Particles
+for(let i=0;i<60;i++){
+    let p=document.createElement("div");
+    p.className="particle";
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=(8+Math.random()*8)+"s";
+    p.style.animationDelay=Math.random()*5+"s";
+    document.body.appendChild(p);
+}
+
+// Countdown
+function getNextSaturday(){
+    const now = new Date();
+    const target = new Date(now);
+
+    let days = (6 - now.getDay() + 7) % 7;
+    if(days === 0) days = 7;
+
+    target.setDate(now.getDate() + days);
+    target.setHours(0,0,0,0);
+
+    return target;
+}
+
+const targetDate = getNextSaturday();
+
+function updateCountdown(){
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    const d = Math.floor(distance/(1000*60*60*24));
+    const h = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+    const m = Math.floor((distance%(1000*60*60))/(1000*60));
+    const s = Math.floor((distance%(1000*60))/1000);
+
+    document.getElementById("countdown").innerHTML =
+        `${d}D ${h}H ${m}M ${s}S`;
+}
+
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+</script>
+
+</body>
+</html>
