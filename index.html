@@ -181,21 +181,10 @@ for(let i=0;i<60;i++){
 }
 
 // Countdown
-function getNextSaturday(){
-    const now = new Date();
-    const target = new Date(now);
+// Set the exact launch date and time here
+// Example: June 28, 2026 at 3:00 PM Philippines Time
 
-    let days = (6 - now.getDay() + 7) % 7;
-    if(days === 0) days = 7;
-
-    target.setDate(now.getDate() + days);
-    target.setHours(0,0,0,0);
-
-    return target;
-}
-
-const targetDate = getNextSaturday();
-
+const targetDate = new Date("2026-06-28T07:00:00Z");
 function updateCountdown(){
     const now = new Date().getTime();
     const distance = targetDate - now;
