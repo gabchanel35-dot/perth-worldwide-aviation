@@ -108,9 +108,46 @@ body{
     box-shadow:0 0 40px rgba(0,0,0,.5);
 }
 
-.card img{
+.main-logo{
     width:180px;
     margin-bottom:20px;
+    filter:
+        drop-shadow(0 0 15px #38bdf8)
+        drop-shadow(0 0 40px #38bdf8)
+        drop-shadow(0 0 80px #38bdf8);
+
+    animation:logoPulse 3s infinite ease-in-out;
+}
+
+@keyframes logoPulse{
+    0%,100%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.05);
+    }
+}
+
+#nextBtn{
+    margin-top:30px;
+    padding:15px 30px;
+    border:none;
+    border-radius:50px;
+    background:#38bdf8;
+    color:white;
+    cursor:pointer;
+}
+
+#competitorsPage{
+    display:none;
+    margin-top:30px;
+}
+
+.competitor{
+    margin-top:20px;
+    padding:20px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.05);
 }
 
 h1{
@@ -219,6 +256,14 @@ function updateCountdown(){
 updateCountdown();
 setInterval(updateCountdown,1000);
 
+// Reveal competitors button
+document.getElementById("nextBtn").addEventListener("click", () => {
+    document.getElementById("countdown").style.display = "none";
+    document.getElementById("nextBtn").style.display = "none";
+    document.getElementById("competitorsPage").style.display = "block";
+});
+
+</script>
 </script>
 
 </body>
